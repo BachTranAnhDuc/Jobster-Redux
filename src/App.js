@@ -1,7 +1,9 @@
 import React from "react";
 
+import { Landing } from "./pages";
+
 const App = () => {
-  return <div>Jobster Redux</div>;
+  return <Landing></Landing>;
 };
 
 export default App;
