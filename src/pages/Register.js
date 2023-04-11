@@ -4,6 +4,8 @@ import Wrapper from "../assets/wrappers/RegisterPage";
 
 import { Logo, FormRow } from "../components";
 
+import { ToastContainer, toast } from "react-toastify";
+
 const initialState = {
   name: "",
   email: "",
@@ -13,10 +15,31 @@ const initialState = {
 
 const Register = () => {
   const [values, setValues] = useState(initialState);
-  const handleChange = (e) => {};
+
+  const toggleMember = () => {
+    setValues({ ...values, isMember: !values.isMember });
+  };
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    // console.log(`${name}:${value}`);
+
+    setValues({ ...values, [name]: value });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    const { name, email, password, isMember } = values;
+
+    if (!email || !password || (!isMember && !name)) {
+      console.log("Please Fill Out All Fields");
+      toast.warning("Please fill out all fields");
+
+      return;
+    }
   };
 
   return (
@@ -29,14 +52,17 @@ const Register = () => {
       >
         <Logo></Logo>
 
-        <h3>Login</h3>
+        <h3>{values.isMember ? "Login" : "Register"}</h3>
 
-        <FormRow
-          type={"text"}
-          name="name"
-          value={values.name}
-          handleChange={handleChange}
-        ></FormRow>
+        {!values.isMember && (
+          <FormRow
+            type={"text"}
+            name="name"
+            value={values.name}
+            handleChange={handleChange}
+          ></FormRow>
+        )}
+
         <FormRow
           type={"email"}
           name="email"
@@ -50,9 +76,17 @@ const Register = () => {
           handleChange={handleChange}
         ></FormRow>
 
-        <button className="btn btn-block" type="submit">
-          submit
+        <button className="btn btn-block" onClick={onSubmit}>
+          Submit
         </button>
+
+        <p>
+          {values.isMember ? "Not a member yet?" : "Already a member?"}
+
+          <button className="member-btn" type="button" onClick={toggleMember}>
+            {values.isMember ? "Register" : "Login"}
+          </button>
+        </p>
       </form>
     </Wrapper>
   );

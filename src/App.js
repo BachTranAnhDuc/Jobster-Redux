@@ -4,6 +4,10 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 import { Landing, Register, Dashboard, Error } from "./pages";
 
+import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css";
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -13,6 +17,8 @@ const App = () => {
         <Route path={"register"} element={<Register></Register>}></Route>
         <Route path={"*"} element={<Error></Error>}></Route>
       </Routes>
+
+      <ToastContainer></ToastContainer>
     </BrowserRouter>
   );
 };
