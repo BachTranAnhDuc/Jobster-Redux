@@ -6,6 +6,10 @@ import { Logo, FormRow } from "../components";
 
 import { ToastContainer, toast } from "react-toastify";
 
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser, registerUser } from "../features/user/userSlice";
+import { store } from "../store";
+
 const initialState = {
   name: "",
   email: "",
@@ -14,6 +18,9 @@ const initialState = {
 };
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const { isLoading, user } = useSelector((store) => store.user);
+
   const [values, setValues] = useState(initialState);
 
   const toggleMember = () => {
@@ -40,6 +47,14 @@ const Register = () => {
 
       return;
     }
+
+    if (isMember) {
+      dispatch(loginUser({ email: email, password: password }));
+
+      return;
+    }
+
+    dispatch(registerUser({ name, email, password }));
   };
 
   return (
